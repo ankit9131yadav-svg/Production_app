@@ -44,13 +44,13 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 sh '''
-                ansible-playbook \
-                -i ansible/inventory \
-                ansible/deploy-app.yml
-                '''
-            }
+                   ansible-playbook \
+                     -i /var/lib/jenkins/ansible/inventory \
+                     /var/lib/jenkins/ansible/deploy-app.yml
+                   '''
+                }
+             }    
         }
-    }
 
     post {
         success {
