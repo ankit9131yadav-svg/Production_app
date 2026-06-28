@@ -15,5 +15,5 @@
         docker run -d \
         --name production-app \
         --restart always \
-        -p 81:80 \
+        -p 8081:80 \
         ankit9131/production-app:latest
