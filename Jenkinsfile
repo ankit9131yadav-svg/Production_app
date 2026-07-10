@@ -16,7 +16,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:latest .'
+                sh '''
+                docker build -t $IMAGE_NAME:latest .
+                '''
             }
         }
 
@@ -37,28 +39,39 @@ pipeline {
 
         stage('Push Image') {
             steps {
-                sh 'docker push $IMAGE_NAME:latest'
+                sh '''
+                docker push $IMAGE_NAME:latest
+                '''
             }
         }
 
-        stage('Deploy to Production') {
+        stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                   ansible-playbook \
-                     -i /var/lib/jenkins/ansible/inventory \
-                     /var/lib/jenkins/ansible/deploy-app.yml
-                   '''
-                }
-             }    
+                kubectl apply -f k8s/
+
+                kubectl rollout restart deployment/production-app \
+                -n production
+
+                kubectl rollout status deployment/production-app \
+                -n production
+                '''
+            }
         }
+    }
 
     post {
+
         success {
-            echo 'Deployment Successful'
+            echo 'Kubernetes Deployment Successful'
         }
 
         failure {
-            echo 'Deployment Failed'
+            echo 'Kubernetes Deployment Failed'
+        }
+
+        always {
+            sh 'kubectl get pods -n production || true'
         }
     }
 }

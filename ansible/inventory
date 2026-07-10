@@ -1,5 +1,5 @@
 [prod]
-43.204.96.178
+35.154.96.223
 
 [prod:vars]
 ansible_user=ec2-user

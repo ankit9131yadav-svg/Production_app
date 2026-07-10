@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: production-app
+  namespace: production
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: production-app
+
+  template:
+    metadata:
+      labels:
+        app: production-app
+
+    spec:
+      containers:
+      - name: production-app
+        image: ankit9131/production-app:latest
+
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 80
