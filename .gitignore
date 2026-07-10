@@ -22,3 +22,8 @@ workspace/
 # IDE
 .vscode/
 .idea/
+
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
