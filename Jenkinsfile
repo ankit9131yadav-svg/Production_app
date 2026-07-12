@@ -49,14 +49,7 @@ pipeline {
                 sh '''
                 export KUBECONFIG=/var/lib/jenkins/.kube/config
 
-                kubectl apply -f k8s/namespace.yaml
-                kubectl apply -f k8s/deployment.yaml
-                kubectl apply -f k8s/service.yaml
-                kubectl apply -f k8s/ingress.yaml
-                kubectl apply -f k8s/configmap.yaml
-                kubectl apply -f k8s/secret.yaml
-
-                kubectl get pods -n production
+                helm upgrade --install production-app ./helm/production-app -n production
                 '''
             }
         }

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: production-app
+  namespace: {{ .Values.namespace }}
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: production-app
+
+  template:
+    metadata:
+      labels:
+        app: production-app
+
+    spec:
+      containers:
+      - name: production-app
+
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 80
+
+        envFrom:
+        - configMapRef:
+            name: production-app-config
+
+        - secretRef:
+            name: production-app-secret
