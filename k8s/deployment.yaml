@@ -31,5 +31,5 @@ spec:
           - configMapRef:
               name: production-app-config 
 
-          - secretref:
+          - secretRef:
               name: production-app-secret
