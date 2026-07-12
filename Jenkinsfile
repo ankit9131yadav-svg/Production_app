@@ -48,17 +48,17 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                kubectl apply -f k8s/
+                export KUBECONFIG=/var/lib/jenkins/.kube/config
 
-                kubectl rollout restart deployment/production-app \
-                -n production
+                kubectl apply -f k8s/namespace.yaml
+                kubectl apply -f k8s/deployment.yaml
+                kubectl apply -f k8s/service.yaml
+                kubectl apply -f k8s/ingress.yaml
 
-                kubectl rollout status deployment/production-app \
-                -n production
-                '''
-            }
-        }
-    }
+                kubectl get pods -n production
+                 '''
+           }
+       }
 
     post {
 
@@ -69,9 +69,11 @@ pipeline {
         failure {
             echo 'Kubernetes Deployment Failed'
         }
-
         always {
-            sh 'kubectl get pods -n production || true'
-        }
+             sh '''
+             export KUBECONFIG=/var/lib/jenkins/.kube/config
+             kubectl get pods -n production || true
+            '''
+        } 
     }
 }
