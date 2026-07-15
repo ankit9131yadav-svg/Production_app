@@ -7,12 +7,12 @@ metadata:
 
 spec:
   replicas: {{ .Values.replicaCount }}
-  strategy:
-  type: RollingUpdate
 
-  rollingUpdate:
-    maxUnavailable: 1
-    maxSurge: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
 
   selector:
     matchLabels:
@@ -25,27 +25,27 @@ spec:
 
     spec:
       containers:
-      - name: production-app
+        - name: production-app
 
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Always
 
-        imagePullPolicy: Always
+          ports:
+            - containerPort: 80
 
-        ports:
-        - containerPort: 80
-        resources:
-          requests:
-            cpu: {{ .Values.resources.requests.cpu }}
-            memory: {{ .Values.resources.requests.memory }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
 
-          limits:
-            cpu: {{ .Values.resources.limits.cpu }}
-            memory: {{ .Values.resources.limits.memory }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+
           livenessProbe:
             httpGet:
-              path: / 
+              path: /
               port: 80
-
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
@@ -55,15 +55,14 @@ spec:
             httpGet:
               path: /
               port: 80
-
             initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 3
             failureThreshold: 3
 
-        envFrom:
-        - configMapRef:
-            name: production-app-config
+          envFrom:
+            - configMapRef:
+                name: production-app-config
 
-        - secretRef:
-            name: production-app-secret
+            - secretRef:
+                name: production-app-secret
