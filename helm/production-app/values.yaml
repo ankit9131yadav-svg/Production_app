@@ -1,6 +1,6 @@
 namespace: production
 
-replicaCount: 2
+replicaCount: 3
 
 image:
   repository: ankit9131/production-app
