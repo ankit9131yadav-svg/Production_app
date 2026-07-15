@@ -43,8 +43,8 @@ spec:
             memory: {{ .Values.resources.limits.memory }}
           livenessProbe:
             httpGet:
-            path: / 
-            port: 80
+              path: / 
+              port: 80
 
             initialDelaySeconds: 30
             periodSeconds: 10
@@ -53,8 +53,8 @@ spec:
 
           readinessProbe:
             httpGet:
-            path: /
-            port: 80
+              path: /
+              port: 80
 
             initialDelaySeconds: 10
             periodSeconds: 5
