@@ -17,7 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t $IMAGE_NAME:latest .
+                    docker build -t $IMAGE_NAME:latest .
                 '''
             }
         }
@@ -30,7 +30,7 @@ pipeline {
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
                     sh '''
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
                     '''
                 }
             }
@@ -39,33 +39,32 @@ pipeline {
         stage('Push Image') {
             steps {
                 sh '''
-                docker push $IMAGE_NAME:latest
+                    docker push $IMAGE_NAME:latest
                 '''
             }
         }
 
-       stage('GitOps Deployment') {
-           steps {
-            echo 'Docker image pushed successfully.'
-            echo 'ArgoCD will deploy the Helm chart from Git.'
-           }
-       }
-  }
+        stage('GitOps Deployment') {
+            steps {
+                echo 'Docker image pushed successfully.'
+                echo 'ArgoCD is responsible for Kubernetes deployment.'
+                echo 'Kubernetes manifests are managed through GitOps.'
+            }
+        }
+    }
 
     post {
+
         success {
-            echo 'Kubernetes Deployment Successful'
+            echo 'CI Pipeline Successful - ArgoCD will handle deployment.'
         }
 
         failure {
-            echo 'Kubernetes Deployment Failed'
+            echo 'CI Pipeline Failed.'
         }
 
         always {
-            sh '''
-            export KUBECONFIG=/var/lib/jenkins/.kube/config
-            kubectl get pods -n production || true
-            '''
+            echo 'Jenkins CI pipeline completed.'
         }
     }
 }
