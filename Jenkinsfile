@@ -44,16 +44,13 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                sh '''
-                export KUBECONFIG=/var/lib/jenkins/.kube/config
-
-                helm upgrade --install production-app ./helm/production-app -n production
-                '''
-            }
-        }
-    }
+       stage('GitOps Deployment') {
+           steps {
+            echo 'Docker image pushed successfully.'
+            echo 'ArgoCD will deploy the Helm chart from Git.'
+           }
+       }
+  }
 
     post {
         success {
