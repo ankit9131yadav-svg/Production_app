@@ -6,7 +6,6 @@ resources:
   requests:
     cpu: "100m"
     memory: "128Mi"
-
   limits:
     cpu: "500m"
     memory: "512Mi"
@@ -26,11 +25,6 @@ config:
   APP_ENV: production
   APP_NAME: Production DevOps Platform
   APP_PORT: "80"
-
-secret:
-  DB_USERNAME: admin
-  DB_PASSWORD: password123
-  API_KEY: devops-secret-key
 
 autoscaling:
   minReplicas: 3

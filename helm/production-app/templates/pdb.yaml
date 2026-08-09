@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Values.namespace }}
 
 spec:
-  minAvailable: 2
+  minAvailable: {{ .Values.pdb.minAvailable }}
 
   selector:
     matchLabels:

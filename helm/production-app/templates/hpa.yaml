@@ -11,8 +11,8 @@ spec:
     kind: Deployment
     name: production-app
 
-  minReplicas: 3
-  maxReplicas: 10
+  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
 
   metrics:
     - type: Resource
@@ -20,4 +20,4 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 70
+          averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
