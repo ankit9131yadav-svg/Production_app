@@ -33,3 +33,8 @@ autoscaling:
 
 pdb:
   minAvailable: 1
+
+secret:
+  DB_USERNAME: dev_user
+  DB_PASSWORD: dev_only_password
+  API_KEY: dev_only_api_key
