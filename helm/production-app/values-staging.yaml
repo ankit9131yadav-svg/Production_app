@@ -38,3 +38,6 @@ secret:
   DB_USERNAME: staging_user
   DB_PASSWORD: staging_only_password
   API_KEY: staging_only_api_key
+
+ingress:
+  host: staging.production-app.local

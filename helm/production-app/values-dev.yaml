@@ -38,3 +38,6 @@ secret:
   DB_USERNAME: dev_user
   DB_PASSWORD: dev_only_password
   API_KEY: dev_only_api_key
+
+ingress:
+  host: dev.production-app.local
